@@ -21,7 +21,7 @@ function randomInteger(min, max) {
 
 $(document).ready(function() {
     $('div.bodyCurtain').fadeOut(500);
-    for (let n = 0; n < 100; n++) {
+    for (let n = 0; n < 180; n++) {
         words.push(wordBank[randomInteger(0, 998)]);
     }
     wordsRemaining = words.length;
