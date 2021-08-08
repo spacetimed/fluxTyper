@@ -22,7 +22,7 @@ function randomInteger(min, max) {
 $(document).ready(function() {
     $('div.bodyCurtain').fadeOut(500);
     for (let n = 0; n < 180; n++) {
-        words.push(wordBank[randomInteger(0, 998)]);
+        words.push(wordBank[randomInteger(0, 499)]);
     }
     wordsRemaining = words.length;
     words.forEach(function insertWord(element) {
@@ -70,7 +70,10 @@ function showError() {
 }
 
 function calcWPM() {
-    WPM = ((correctWords / timeElapsed)*100);
+    //Count a word as 5 characters
+    console.log("correctChars=>" + correctChars);
+    let wordsEstimate = correctChars / 4;
+    WPM = (wordsEstimate / timeElapsed)*60;
     WPM = parseFloat(WPM).toFixed(0);
     document.getElementById('stats_wordsPerMinute').innerText = WPM;
 }
@@ -110,7 +113,7 @@ function reload() {
 
 function updateWordsRemaining() {
     wordsRemaining = words.length;
-    document.getElementById('stats_wordsRemaining').innerText = wordsRemaining;
+    //document.getElementById('stats_wordsRemaining').innerText = wordsRemaining;
 }
 
 function begin() {
@@ -138,7 +141,10 @@ passageInput.addEventListener('input', () => {
 
     if(lastChar == ' ')
     {
+        correctChars += 1;
         submitWord(passageInput.value);
         updateWordsRemaining();
     }
+    
+    document.getElementById('stats_totalChars').innerText = correctChars;
 });
