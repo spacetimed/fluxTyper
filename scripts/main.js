@@ -1,23 +1,7 @@
-$(document).ready(function() {
-    $('div.bodyCurtain').fadeOut(500);
-})
-
-let words = [
-    'One',
-    'Two',
-    'Three',
-    'Four',
-    'Five',
-    'Six',
-    'Seven',
-    'Eight',
-    'Nine',
-    'Ten',
-]
-
 let currentWord = 0;
 let inProgress = false;
-const testTime = 10;
+const testTime = 60;
+let words = [];
 let timeElapsed = 0;
 let currentTestTime = testTime;
 let wordsRemaining = words.length;
@@ -29,6 +13,24 @@ let WPM = 0;
 
 var passage_Container = document.getElementsByClassName('passage_Container')[0];
 var passageInput = document.getElementsByClassName('passageInput')[0];
+
+function randomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+$(document).ready(function() {
+    $('div.bodyCurtain').fadeOut(500);
+    for (let n = 0; n < 100; n++) {
+        words.push(wordBank[randomInteger(0, 998)]);
+    }
+    wordsRemaining = words.length;
+    words.forEach(function insertWord(element) {
+        let div = document.createElement("div")
+        div.className = 'word';
+        div.append(element);
+        passage_Container.appendChild(div);
+    });
+})
 
 function shiftWord() {
     var word = document.getElementsByClassName('word')[0];
@@ -43,7 +45,6 @@ function shiftWord() {
 
 function submitWord(word) {
     const isCorrect = Boolean(passageInput.value == (words[0] + ' '));
-    console.log(isCorrect);
     if(isCorrect)
     {
         correctWords += 1;
@@ -59,8 +60,6 @@ function submitWord(word) {
 }
 
 function calcWPM() {
-    console.log("Correct Words: " + correctWords);
-    console.log("Time Elapsed: " + timeElapsed);
     WPM = ((correctWords / timeElapsed)*100);
     WPM = parseFloat(WPM).toFixed(0);
     document.getElementById('stats_wordsPerMinute').innerText = WPM;
@@ -84,9 +83,19 @@ function beginTest() {
             beginTest();
         }, 1000);
     } else {
-        inProgress = false;
+        endTest();
     }
+}
 
+function endTest() {
+    $('div.passage_Container').slideUp(250);
+    $('div.passageInput_Container').slideUp(250);
+    $('div.endgame_Container').fadeIn(500);
+    $('div.endgame_Container').css('display', 'flex');
+}
+
+function reload() {
+    location.reload();
 }
 
 function updateWordsRemaining() {
@@ -95,21 +104,16 @@ function updateWordsRemaining() {
 }
 
 function begin() {
-    //lol
+    $('div.passageInput_hint').remove();
+    $('div.stats_Container').fadeIn(500);
+    $('div.stats_Container').css('display', 'flex');
 }
-
-words.forEach(function insertWord(element) {
-    let div = document.createElement("div")
-    div.className = 'word';
-    div.append(element);
-    passage_Container.appendChild(div);
-    //totalChars += element.length;
-});
 
 passageInput.addEventListener('input', () => {
 
     if(!inProgress)
     {
+        begin();
         updateWordsRemaining();
         beginTest();
     }
