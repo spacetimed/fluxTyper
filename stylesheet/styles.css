@@ -293,3 +293,16 @@ div.endgame_Container > div.button {
 div.endgame_Container > div.button:hover {
     background-color:rgba(255,255,255,0.1);
 }
+
+div.mainContent_Container > div.passageInput_miss {
+    color:red;
+    font-family:'Arial';
+    width:20px;
+    height:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:absolute;
+    margin-top:10px;
+    display:none;
+}

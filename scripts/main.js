@@ -6,6 +6,7 @@ let timeElapsed = 0;
 let currentTestTime = testTime;
 let wordsRemaining = words.length;
 let correctWords = 0;
+let totalWords = 0;
 let charAcc = 0;
 let totalChars = 0;
 let correctChars = 0;
@@ -45,18 +46,27 @@ function shiftWord() {
 
 function submitWord(word) {
     const isCorrect = Boolean(passageInput.value == (words[0] + ' '));
+    totalWords += 1;
     if(isCorrect)
     {
         correctWords += 1;
-        document.getElementById('stats_correctWords').innerText = correctWords;
         correctChars += (words[0].length);
+    } else {
+        showError();
     }
+    document.getElementById('stats_correctWords').innerText = correctWords + "/" + totalWords;
     passageInput.value = '';
     totalChars += (words[0].length);
     shiftWord();
     charAcc = (correctChars / totalChars) * 100;
     charAcc = parseFloat(charAcc).toFixed(1);
     document.getElementById('stats_charAcc').innerText = charAcc + "%";
+}
+
+function showError() {
+    $('div.passageInput_miss').css('display', 'flex');
+    $('div.passageInput_miss').hide();
+    $('div.passageInput_miss').fadeIn(250).fadeOut(250);
 }
 
 function calcWPM() {
@@ -118,7 +128,14 @@ passageInput.addEventListener('input', () => {
         beginTest();
     }
 
+    if(passageInput.value == words[0] || passageInput.value == words[0] + " ") {
+        $("div.word:nth-child(1)").css('color', 'green');
+    } else {
+        $("div.word:nth-child(1)").css('color', 'white');
+    }
+
     const lastChar = passageInput.value.charAt(passageInput.value.length - 1);
+
     if(lastChar == ' ')
     {
         submitWord(passageInput.value);
