@@ -70,8 +70,7 @@ function showError() {
 }
 
 function calcWPM() {
-    //Count a word as 5 characters
-    console.log("correctChars=>" + correctChars);
+    //Count a word as 4 characters
     let wordsEstimate = correctChars / 4;
     WPM = (wordsEstimate / timeElapsed)*60;
     WPM = parseFloat(WPM).toFixed(0);
@@ -145,6 +144,6 @@ passageInput.addEventListener('input', () => {
         submitWord(passageInput.value);
         updateWordsRemaining();
     }
-    
+
     document.getElementById('stats_totalChars').innerText = correctChars;
 });
