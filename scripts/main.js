@@ -1,35 +1,39 @@
-let currentWord = 0;
 let inProgress = false;
-const testTime = 60;
-let words = [];
 let timeElapsed = 0;
-let currentTestTime = testTime;
-let wordsRemaining = words.length;
+
+let currentWord = 0;
 let correctWords = 0;
 let totalWords = 0;
 let charAcc = 0;
 let totalChars = 0;
 let correctChars = 0;
-let WPM = 0;
 
-var passage_Container = document.getElementsByClassName('passage_Container')[0];
+const testTime = 60;
+const amountOfWords = 180;
+let currentTestTime = testTime;
+
+let WPM = 0;
+let words = [];
+let wordsRemaining;
+
+var passageContainer = document.getElementsByClassName('passage_Container')[0];
 var passageInput = document.getElementsByClassName('passageInput')[0];
 
-function randomInteger(min, max) {
+function randomInteger(min, max) { //from MDN
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 $(document).ready(function() {
     $('div.bodyCurtain').fadeOut(500);
-    for (let n = 0; n < 180; n++) {
-        words.push(wordBank[randomInteger(0, 499)]);
+    for (let n = 0; n < amountOfWords; n++) {
+        words.push(wordBank[randomInteger(0, wordBank.length)]);
     }
     wordsRemaining = words.length;
-    words.forEach(function insertWord(element) {
-        let div = document.createElement("div")
+    words.forEach((e) => {
+        let div = document.createElement("div");
         div.className = 'word';
-        div.append(element);
-        passage_Container.appendChild(div);
+        div.append(e);
+        passageContainer.appendChild(div);
     });
 })
 
@@ -56,7 +60,7 @@ function submitWord(word) {
     }
     document.getElementById('stats_correctWords').innerText = correctWords + "/" + totalWords;
     passageInput.value = '';
-    totalChars += (words[0].length);
+    totalChars += (words[0].length) + 1;
     shiftWord();
     charAcc = (correctChars / totalChars) * 100;
     charAcc = parseFloat(charAcc).toFixed(1);
@@ -112,7 +116,6 @@ function reload() {
 
 function updateWordsRemaining() {
     wordsRemaining = words.length;
-    //document.getElementById('stats_wordsRemaining').innerText = wordsRemaining;
 }
 
 function begin() {
@@ -122,28 +125,23 @@ function begin() {
 }
 
 passageInput.addEventListener('input', () => {
-
     if(!inProgress)
     {
         begin();
         updateWordsRemaining();
         beginTest();
     }
-
     if(passageInput.value == words[0] || passageInput.value == words[0] + " ") {
         $("div.word:nth-child(1)").css('color', 'green');
     } else {
         $("div.word:nth-child(1)").css('color', 'white');
     }
-
     const lastChar = passageInput.value.charAt(passageInput.value.length - 1);
-
     if(lastChar == ' ')
     {
         correctChars += 1;
         submitWord(passageInput.value);
         updateWordsRemaining();
     }
-
     document.getElementById('stats_totalChars').innerText = correctChars;
 });

@@ -14,6 +14,11 @@ body {
     color:#fff;
 }
 
+a {
+    text-decoration:none;
+    color:inherit;
+}
+
 div.bodyCurtain {
     position:absolute;
     width:100vw;
@@ -85,6 +90,7 @@ div.topNavigation_Container > h1 {
     display:inline-block;
     cursor:pointer;
     transition:border .1s ease-in-out;
+    user-select:none;
 }
 
 div.topNavigation_Container > h1:hover {
