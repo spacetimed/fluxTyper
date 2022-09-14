@@ -13,4 +13,4 @@ This project was intended to refresh my understanding of core web development la
 
 ## Demo 
 ![Demo Image](/images/preview.png)
-[**View fluxTyper demo** (powered by GitHub Pages)](https://ffffff-base16.github.io/fluxTyper/)
+[**View fluxTyper demo** (powered by GitHub Pages)](https://spacetimed.github.io/fluxTyper/)
